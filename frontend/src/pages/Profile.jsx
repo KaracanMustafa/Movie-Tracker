@@ -49,20 +49,23 @@ const Profile = () => {
     };
 
     if (loading) {
-        return <div className="text-center mt-8">Loading profile...</div>;
+        return <div className="text-center mt-8 text-indigo-300">⏳ Loading profile...</div>;
     }
 
     return (
         <div className="w-full max-w-lg mx-auto mt-8">
-            <h2 className="text-3xl font-bold text-center mb-6">User Profile</h2>
+            <div className="mb-8">
+                <h2 className="text-4xl font-bold bg-gradient-to-r from-indigo-300 to-purple-300 bg-clip-text text-transparent mb-2">👤 User Profile</h2>
+                <div className="h-1 w-32 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full"></div>
+            </div>
             {message && (
-                <div className="p-4 mb-4 text-sm text-center bg-green-100 text-green-700 rounded-lg" role="alert">
-                    {message}
+                <div className={`p-4 mb-4 text-sm text-center rounded-lg border ${message.includes('successfully') ? 'bg-green-500/20 text-green-300 border-green-500/50' : 'bg-red-500/20 text-red-300 border-red-500/50'}`} role="alert">
+                    {message.includes('successfully') ? '✅' : '❌'} {message}
                 </div>
             )}
-            <form className="space-y-6 bg-white p-8 shadow-md rounded-lg" onSubmit={onSubmit}>
+            <form className="space-y-5 bg-gradient-to-br from-gray-800 to-gray-900 p-8 shadow-2xl rounded-2xl border border-indigo-500/20" onSubmit={onSubmit}>
                 <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="name" className="block text-sm font-semibold text-indigo-300 mb-2">
                         Name
                     </label>
                     <input
@@ -70,21 +73,21 @@ const Profile = () => {
                         name="name"
                         type="text"
                         required
-                        className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                        className="w-full px-4 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
                         value={name}
                         onChange={onChange}
                     />
                 </div>
                 <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                        Email address
+                    <label htmlFor="email" className="block text-sm font-semibold text-indigo-300 mb-2">
+                        Email Address
                     </label>
                     <input
                         id="email"
                         name="email"
                         type="email"
                         required
-                        className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                        className="w-full px-4 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
                         value={email}
                         onChange={onChange}
                     />
@@ -92,7 +95,7 @@ const Profile = () => {
                 <div>
                     <button
                         type="submit"
-                        className="w-full px-4 py-2 font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700"
+                        className="w-full px-4 py-3 font-semibold text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl"
                     >
                         Update Profile
                     </button>

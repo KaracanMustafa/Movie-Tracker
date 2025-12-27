@@ -34,41 +34,60 @@ const SharedWatchlistsPage = () => {
         }
     };
 
-    if (loading) return <p>Loading...</p>;
+    if (loading) return <p className="text-indigo-300 text-center py-8">⏳ Loading shared watchlists...</p>;
 
     return (
-        <div className="container mx-auto p-4">
-            <h1 className="text-3xl font-bold mb-6">Shared Watchlists</h1>
+        <div className="container mx-auto px-4 py-8 space-y-8">
+            <div>
+                <h1 className="text-4xl md:text-5xl font-bold mb-2 bg-gradient-to-r from-indigo-300 to-purple-300 bg-clip-text text-transparent">📋 Shared Watchlists</h1>
+                <div className="h-1 w-32 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full"></div>
+            </div>
 
-            <div className="mb-8 p-6 bg-white rounded-lg shadow-md">
-                <h2 className="text-2xl font-bold mb-4">Create a New Shared List</h2>
-                <form onSubmit={handleCreateList}>
+            <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-8 rounded-2xl shadow-2xl border border-indigo-500/20">
+                <h2 className="text-2xl font-bold mb-6 text-indigo-300">✨ Create a New Shared List</h2>
+                <form onSubmit={handleCreateList} className="space-y-4">
                     <input
                         type="text"
                         value={listName}
                         onChange={(e) => setListName(e.target.value)}
-                        placeholder="New list name"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                        placeholder="📝 Enter list name..."
+                        className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
                         required
                     />
-                    <button type="submit" className="mt-4 w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-md">
+                    <button 
+                        type="submit" 
+                        className="w-full py-3 px-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl"
+                    >
                         Create List
                     </button>
                 </form>
             </div>
 
-            <div>
-                <h2 className="text-2xl font-bold mb-4">My Lists</h2>
+            <div className="space-y-4">
+                <h2 className="text-2xl font-bold text-indigo-300">📌 My Lists</h2>
                 {lists.length === 0 ? (
-                    <p>You are not a member of any shared watchlists.</p>
+                    <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-8 rounded-2xl border border-indigo-500/20 text-center">
+                        <p className="text-gray-400 text-lg">ℹ️ You are not a member of any shared watchlists.</p>
+                    </div>
                 ) : (
-                    <div className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {lists.map(list => (
-                            <div key={list._id} className="p-4 bg-white rounded-lg shadow">
-                                <h3 className="text-xl font-bold">{list.name}</h3>
-                                <p className="text-sm text-gray-500">Owner: {list.owner.name}</p>
-                                <p className="text-sm">Members: {list.members.length}</p>
-                                <p className="text-sm">Movies: {list.movies.length}</p>
+                            <div 
+                                key={list._id} 
+                                className="bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-2xl shadow-xl border border-indigo-500/20 hover:border-indigo-500/50 transition-all duration-300 hover:shadow-2xl hover:scale-105"
+                            >
+                                <h3 className="text-xl font-bold text-white mb-4">{list.name}</h3>
+                                <div className="space-y-2 text-sm">
+                                    <p className="text-indigo-300">
+                                        👤 Owner: <span className="text-gray-300">{list.owner.name}</span>
+                                    </p>
+                                    <p className="text-purple-300">
+                                        👥 Members: <span className="text-gray-300">{list.members.length}</span>
+                                    </p>
+                                    <p className="text-indigo-300">
+                                        🎬 Movies: <span className="text-gray-300">{list.movies.length}</span>
+                                    </p>
+                                </div>
                                 {/* Link to detail page will go here */}
                             </div>
                         ))}

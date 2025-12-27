@@ -50,42 +50,49 @@ const Watchlist = () => {
     };
 
     if (loading) {
-        return <div className="text-center mt-8">Loading watchlist...</div>;
+        return <div className="text-center mt-8 text-indigo-300">⏳ Loading your watchlist...</div>;
     }
 
     if (error) {
-        return <div className="text-center mt-8 text-red-500">{error}</div>;
+        return <div className="text-center mt-8 text-red-400 bg-red-500/20 border border-red-500/50 rounded-lg p-4">❌ {error}</div>;
     }
 
     return (
         <>
-            <div className="container mx-auto p-4">
-                <h1 className="text-3xl font-bold mb-6">My Watchlist</h1>
+            <div className="container mx-auto px-4 py-8 space-y-8">
+                <div>
+                    <h1 className="text-4xl md:text-5xl font-bold mb-2 bg-gradient-to-r from-indigo-300 to-purple-300 bg-clip-text text-transparent">🎬 My Watchlist</h1>
+                    <div className="h-1 w-40 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full"></div>
+                </div>
                 {watchlist.length === 0 ? (
-                    <p>Your watchlist is empty. Add some movies!</p>
+                    <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-12 rounded-2xl border border-indigo-500/20 text-center">
+                        <p className="text-gray-400 text-lg">📽️ Your watchlist is empty. Add some movies!</p>
+                    </div>
                 ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
                         {watchlist.map(item => (
-                            <div key={item._id} className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col">
+                            <div key={item._id} className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl shadow-xl overflow-hidden flex flex-col hover:shadow-2xl hover:scale-105 transition-all duration-300 border border-indigo-500/20">
                                 <img
                                     src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
                                     alt={item.title}
-                                    className="w-full h-auto"
+                                    className="w-full h-72 object-cover"
                                 />
-                                <div className="p-4 flex flex-col flex-grow">
-                                    <h3 className="font-bold text-lg flex-grow">{item.title}</h3>
-                                    <p className="text-sm text-gray-600 mt-2">Status: {item.status}</p>
-                                    <p className="text-sm text-gray-600">Score: {item.score}/10</p>
-                                    <div className="mt-4 flex justify-between space-x-2">
+                                <div className="p-4 flex flex-col flex-grow space-y-3">
+                                    <h3 className="font-bold text-base text-white line-clamp-2">{item.title}</h3>
+                                    <div className="space-y-1 text-sm">
+                                        <p className="text-indigo-300">📌 Status: <span className="text-gray-300">{item.status}</span></p>
+                                        <p className="text-purple-300">⭐ Score: <span className="text-gray-300">{item.score}/10</span></p>
+                                    </div>
+                                    <div className="mt-4 flex justify-between gap-2">
                                         <button
                                             onClick={() => handleUpdateClick(item)}
-                                            className="w-1/2 px-3 py-1 text-xs font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700"
+                                            className="flex-1 px-3 py-2 text-xs font-medium text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-lg transition-all duration-300"
                                         >
                                             Update
                                         </button>
                                         <button
                                             onClick={() => handleDelete(item._id)}
-                                            className="w-1/2 px-3 py-1 text-xs font-medium text-white bg-red-600 rounded-md hover:bg-red-700"
+                                            className="flex-1 px-3 py-2 text-xs font-medium text-white bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 rounded-lg transition-all duration-300"
                                         >
                                             Delete
                                         </button>

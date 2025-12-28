@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: yu-movie-backend
+    env: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: node server.js
+    autoDeploy: true
+    plan: free
+    healthCheckPath: /
+    envVars:
+      - key: MONGO_URI
+        value: "<set-in-dashboard>"
+      - key: JWT_SECRET
+        value: "<set-in-dashboard>"
+      - key: TMDB_API_KEY
+        value: "<set-in-dashboard>"
+      - key: CLIENT_ORIGIN
+        value: "https://<your-vercel-app>.vercel.app"

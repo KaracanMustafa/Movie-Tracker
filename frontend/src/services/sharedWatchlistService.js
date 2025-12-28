@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const envApi = import.meta.env.VITE_API_URL;
-const API_BASE = envApi !== undefined ? envApi : 'http://localhost:5000';
+const API_BASE = envApi !== undefined ? envApi : 'https://yu-movie-backend.onrender.com';
 const API_URL = `${API_BASE}/api/shared-watchlists`;
 
 // Create a new axios instance to handle auth headers

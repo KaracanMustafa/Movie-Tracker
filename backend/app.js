@@ -51,4 +51,39 @@ app.use('/api/shared-watchlists', require('./routes/api/sharedWatchlists'));
 // Ensure DB connects when app is first used
 connectDB().catch(err => console.log(err));
 
+// Health endpoint: report env presence and DB status (no secrets)
+app.get('/api/health', (req, res) => {
+  const hasMongo = !!process.env.MONGO_URI;
+  const hasJwt = !!process.env.JWT_SECRET;
+  const hasTmdb = !!process.env.TMDB_API_KEY;
+  const dbState = mongoose.connection.readyState; // 1 connected, 0 disconnected
+  res.json({
+    ok: true,
+    env: {
+      MONGO_URI: hasMongo,
+      JWT_SECRET: hasJwt,
+      TMDB_API_KEY: hasTmdb,
+    },
+    db: {
+      connected: dbState === 1,
+      state: dbState,
+    },
+    ts: new Date().toISOString(),
+  });
+});
+
+// Alias health without /api prefix (e.g., for quick checks)
+app.get('/health', (req, res) => {
+  const hasMongo = !!process.env.MONGO_URI;
+  const hasJwt = !!process.env.JWT_SECRET;
+  const hasTmdb = !!process.env.TMDB_API_KEY;
+  const dbState = mongoose.connection.readyState;
+  res.json({
+    ok: true,
+    env: { MONGO_URI: hasMongo, JWT_SECRET: hasJwt, TMDB_API_KEY: hasTmdb },
+    db: { connected: dbState === 1, state: dbState },
+    ts: new Date().toISOString(),
+  });
+});
+
 module.exports = app;

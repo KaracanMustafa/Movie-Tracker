@@ -43,7 +43,10 @@ exports.registerUser = async (req, res) => {
             process.env.JWT_SECRET,
             { expiresIn: 3600 }, // Expires in 1 hour
             (err, token) => {
-                if (err) throw err;
+                if (err) {
+                    console.error('JWT sign error:', err);
+                    return res.status(500).json({ msg: 'Token generation failed' });
+                }
                 res.json({
                     token,
                     user: {
@@ -95,7 +98,10 @@ exports.loginUser = async (req, res) => {
             process.env.JWT_SECRET,
             { expiresIn: 3600 },
             (err, token) => {
-                if (err) throw err;
+                if (err) {
+                    console.error('JWT sign error:', err);
+                    return res.status(500).json({ msg: 'Token generation failed' });
+                }
                 res.json({
                     token,
                     user: {

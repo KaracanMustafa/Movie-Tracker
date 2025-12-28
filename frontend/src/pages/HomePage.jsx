@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import movieService from '../services/movieService';
 import watchlistService from '../services/watchlistService';
-import Search from '../components/Search';
 import AdvancedSearch from '../components/AdvancedSearch';
 import MovieCard from '../components/MovieCard';
 import { MovieCardSkeleton } from '../components/Skeleton';
+import { IconFilm, IconInfo, IconX } from '../components/Icons';
 
 const HomePage = () => {
     const [movies, setMovies] = useState([]);
@@ -28,9 +29,18 @@ const HomePage = () => {
         }
     };
 
+    const location = useLocation();
+
     useEffect(() => {
-        fetchPopular();
-    }, []);
+        const params = new URLSearchParams(location.search);
+        const q = params.get('q');
+        if (q) {
+            handleSearch(q);
+        } else {
+            fetchPopular();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [location.search]);
 
     const handleSearch = async (query) => {
         setLoading(true);
@@ -81,18 +91,14 @@ const HomePage = () => {
     return (
         <div className="space-y-8">
             <div className="space-y-6">
-                <div className="bg-gradient-to-r from-indigo-600/20 to-purple-600/20 rounded-xl p-6 border border-indigo-500/30 backdrop-blur">
-                    <Search onSearch={handleSearch} />
-                </div>
-                
                 <div className="bg-gradient-to-r from-gray-800/50 to-gray-900/50 rounded-xl p-6 border border-gray-700/50 backdrop-blur">
                     <AdvancedSearch onAdvancedSearch={handleAdvancedSearch} />
                 </div>
             </div>
 
             <div className="flex justify-center">
-                <button onClick={fetchPopular} className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl">
-                    🎬 Show Popular Movies
+                <button onClick={fetchPopular} className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl flex items-center">
+                    <IconFilm /> Show Popular Movies
                 </button>
             </div>
 
@@ -108,8 +114,8 @@ const HomePage = () => {
                     ))}
                 </div>
             )}
-            {error && <div className="text-center py-12 text-red-400 bg-red-500/10 rounded-lg p-4">❌ {error}</div>}
-            {message && <div className="text-center py-12 text-indigo-300 bg-indigo-500/10 rounded-lg p-4">ℹ️ {message}</div>}
+            {error && <div className="text-center py-12 text-red-400 bg-red-500/10 rounded-lg p-4"><IconX />{error}</div>}
+            {message && <div className="text-center py-12 text-indigo-300 bg-indigo-500/10 rounded-lg p-4"><IconInfo />{message}</div>}
 
             {!loading && !error && movies.length > 0 && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">

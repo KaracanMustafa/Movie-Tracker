@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import sharedWatchlistService from '../services/sharedWatchlistService';
+import { IconFilm, IconInfo, IconPin, IconUser } from '../components/Icons';
 
 const SharedWatchlistsPage = () => {
     const [lists, setLists] = useState([]);
@@ -21,16 +22,20 @@ const SharedWatchlistsPage = () => {
         fetchLists();
     }, []);
 
+    const [errorMsg, setErrorMsg] = React.useState('');
+
     const handleCreateList = async (e) => {
         e.preventDefault();
+        setErrorMsg('');
         if (!listName) return;
         try {
             const response = await sharedWatchlistService.createSharedWatchlist(listName);
             setLists([response.data, ...lists]);
             setListName('');
         } catch (error) {
-            console.error("Failed to create list", error);
-            alert('Failed to create shared list.');
+            console.error('Failed to create list', error);
+            const serverMsg = error?.response?.data?.msg || error?.response?.data || error.message || 'Failed to create shared list.';
+            setErrorMsg(serverMsg);
         }
     };
 
@@ -48,18 +53,18 @@ const SharedWatchlistsPage = () => {
     return (
         <div className="container mx-auto px-4 py-8 space-y-8">
             <div>
-                <h1 className="text-4xl md:text-5xl font-bold mb-2 bg-gradient-to-r from-indigo-300 to-purple-300 bg-clip-text text-transparent">📋 Shared Watchlists</h1>
+                <h1 className="text-4xl md:text-5xl font-bold mb-2 bg-gradient-to-r from-indigo-300 to-purple-300 bg-clip-text text-transparent"><IconPin /> Shared Watchlists</h1>
                 <div className="h-1 w-32 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full"></div>
             </div>
 
             <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-8 rounded-2xl shadow-2xl border border-indigo-500/20">
-                <h2 className="text-2xl font-bold mb-6 text-indigo-300">✨ Create a New Shared List</h2>
+                <h2 className="text-2xl font-bold mb-6 text-indigo-300">Create a New Shared List</h2>
                 <form onSubmit={handleCreateList} className="space-y-4">
-                    <input
+                        <input
                         type="text"
                         value={listName}
                         onChange={(e) => setListName(e.target.value)}
-                        placeholder="📝 Enter list name..."
+                        placeholder="Enter list name..."
                         className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
                         required
                     />
@@ -73,10 +78,10 @@ const SharedWatchlistsPage = () => {
             </div>
 
             <div className="space-y-4">
-                <h2 className="text-2xl font-bold text-indigo-300">📌 My Lists</h2>
+                <h2 className="text-2xl font-bold text-indigo-300"><IconPin /> My Lists</h2>
                 {lists.length === 0 ? (
                     <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-8 rounded-2xl border border-indigo-500/20 text-center">
-                        <p className="text-gray-400 text-lg">ℹ️ You are not a member of any shared watchlists.</p>
+                        <p className="text-gray-400 text-lg"><IconInfo /> You are not a member of any shared watchlists.</p>
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -88,13 +93,13 @@ const SharedWatchlistsPage = () => {
                                 <h3 className="text-xl font-bold text-white mb-4">{list.name}</h3>
                                 <div className="space-y-2 text-sm">
                                     <p className="text-indigo-300">
-                                        👤 Owner: <span className="text-gray-300">{list.owner.name}</span>
+                                        <IconUser /> Owner: <span className="text-gray-300">{list.owner.name}</span>
                                     </p>
                                     <p className="text-purple-300">
-                                        👥 Members: <span className="text-gray-300">{list.members.length}</span>
+                                        <IconUser /> Members: <span className="text-gray-300">{list.members.length}</span>
                                     </p>
                                     <p className="text-indigo-300">
-                                        🎬 Movies: <span className="text-gray-300">{list.movies.length}</span>
+                                        <IconFilm /> Movies: <span className="text-gray-300">{list.movies.length}</span>
                                     </p>
                                 </div>
                                 {/* Link to detail page will go here */}

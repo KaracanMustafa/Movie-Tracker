@@ -5,6 +5,7 @@ import reviewService from '../services/reviewService';
 import AuthContext from '../context/AuthContext';
 import ReviewList from '../components/ReviewList';
 import ReviewForm from '../components/ReviewForm';
+import { IconStar, IconCalendar, IconPin } from '../components/Icons';
 
 const MovieDetailPage = () => {
     const { id } = useParams();
@@ -61,26 +62,60 @@ const MovieDetailPage = () => {
         ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
         : 'https://via.placeholder.com/500x750.png?text=No+Image';
 
+    const formatRuntime = (m) => {
+        if (!m) return 'N/A';
+        const h = Math.floor(m / 60);
+        const mm = m % 60;
+        return `${h}h ${mm}m`;
+    };
+
     return (
         <div className="container mx-auto p-4">
-            <div className="flex flex-col md:flex-row bg-white rounded-lg shadow-xl p-8">
-                <img src={posterUrl} alt={movie.title} className="w-full md:w-1/3 rounded-lg" />
-                <div className="md:ml-8 mt-6 md:mt-0">
-                    <h1 className="text-4xl font-bold">{movie.title} ({movie.release_date.substring(0, 4)})</h1>
-                    <p className="text-lg italic text-gray-600 mt-2">{movie.tagline}</p>
-                    <div className="flex items-center my-4">
-                        <span className="text-yellow-500 font-bold text-xl">{movie.vote_average.toFixed(1)} / 10</span>
-                        <span className="ml-4 text-gray-500">({movie.vote_count} votes)</span>
+            <div className="flex flex-col md:flex-row bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl shadow-2xl p-8 border border-indigo-500/20">
+                <img src={posterUrl} alt={movie.title} className="w-full md:w-1/3 rounded-lg shadow-lg object-cover" />
+                <div className="md:ml-8 mt-6 md:mt-0 text-white flex-1">
+                    <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-indigo-300 to-purple-300 bg-clip-text text-transparent">{movie.title} {movie.release_date ? `(${movie.release_date.substring(0, 4)})` : ''}</h1>
+                    {movie.tagline && <p className="text-lg italic text-indigo-200/80 mt-1">{movie.tagline}</p>}
+
+                    <div className="flex items-center my-4 space-x-4">
+                        <div className="flex items-center">
+                            <IconStar className="w-5 h-5 inline-block mr-2 text-yellow-400" />
+                            <span className="font-bold text-lg">{movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A'} / 10</span>
+                            <span className="ml-3 text-sm text-gray-400">({movie.vote_count || 0} votes)</span>
+                        </div>
+                        <div className="text-sm text-gray-300 flex items-center">
+                            <IconCalendar className="w-4 h-4 mr-1" />
+                            <span>{movie.release_date || '—'}</span>
+                        </div>
+                        <div className="text-sm text-gray-300 flex items-center">
+                            <IconPin className="w-4 h-4 mr-1" />
+                            <span>{movie.status || '—'}</span>
+                        </div>
                     </div>
+
                     <div className="my-4">
-                        {movie.genres.map(g => (
-                            <span key={g.id} className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+                        {Array.isArray(movie.genres) && movie.genres.length > 0 && movie.genres.map(g => (
+                            <span key={g.id || g.name} className="inline-block bg-indigo-700/30 rounded-full px-3 py-1 text-sm font-semibold text-indigo-200 mr-2 mb-2">
                                 {g.name}
                             </span>
                         ))}
                     </div>
-                    <h3 className="text-xl font-bold mt-6 mb-2">Overview</h3>
-                    <p>{movie.overview}</p>
+
+                    <div className="mt-6">
+                        <h3 className="text-xl font-bold mb-2 text-indigo-200">Overview</h3>
+                        <p className="text-gray-300 leading-relaxed">{movie.overview || 'No overview available.'}</p>
+                    </div>
+
+                    <div className="mt-6 grid grid-cols-2 gap-4 text-sm text-gray-300">
+                        <div>
+                            <div className="font-semibold text-indigo-200">Runtime</div>
+                            <div>{formatRuntime(movie.runtime)}</div>
+                        </div>
+                        <div>
+                            <div className="font-semibold text-indigo-200">Language</div>
+                            <div>{movie.original_language?.toUpperCase() || '—'}</div>
+                        </div>
+                    </div>
                 </div>
             </div>
 

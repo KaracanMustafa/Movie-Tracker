@@ -19,7 +19,7 @@ const Search = ({ onSearch }) => {
                 <input
                     className="flex-grow px-5 py-3 bg-gray-700/50 border border-indigo-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:bg-gray-700/80 transition-all duration-300"
                     type="text"
-                    placeholder="🔍 Search for a movie..."
+                    placeholder="Search for a movie..."
                     aria-label="Search movie"
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}

@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
+import { IconLock, IconX } from '../components/Icons';
 
 const Login = () => {
     const [formData, setFormData] = useState({
@@ -36,12 +37,12 @@ const Login = () => {
         <div className="flex items-center justify-center min-h-screen">
             <div className="w-full max-w-md p-8 space-y-6 bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl shadow-2xl border border-indigo-500/30">
                 <div className="text-center space-y-2">
-                    <h2 className="text-3xl font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">🔐 Welcome Back</h2>
+                    <h2 className="text-3xl font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent"><IconLock /> Welcome Back</h2>
                     <p className="text-gray-400">Sign in to your account</p>
                 </div>
                 {message && (
                     <div className="p-4 text-sm text-red-200 bg-red-500/20 border border-red-500/50 rounded-lg" role="alert">
-                        ❌ {message}
+                        <IconX /> {message}
                     </div>
                 )}
                 <form className="space-y-5" onSubmit={onSubmit}>

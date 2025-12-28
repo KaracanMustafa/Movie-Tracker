@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { IconStar } from './Icons';
 import movieService from '../services/movieService';
 
 const AdvancedSearch = ({ onAdvancedSearch }) => {
@@ -34,7 +35,7 @@ const AdvancedSearch = ({ onAdvancedSearch }) => {
 
     return (
         <div className="p-6 bg-gradient-to-r from-gray-800/50 to-gray-900/50 rounded-xl border border-gray-700/50 backdrop-blur">
-             <h3 className="text-2xl font-bold mb-6 text-white">🎯 Discover Movies</h3>
+             <h3 className="text-2xl font-bold mb-6 text-white">Discover Movies</h3>
             <form onSubmit={onSubmit} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div>
                     <label htmlFor="genre" className="block text-sm font-semibold text-indigo-300 mb-2">Genre</label>
@@ -51,7 +52,7 @@ const AdvancedSearch = ({ onAdvancedSearch }) => {
                     </select>
                 </div>
                 <div>
-                    <label htmlFor="rating" className="block text-sm font-semibold text-indigo-300 mb-2">Min. Rating ⭐</label>
+                    <label htmlFor="rating" className="block text-sm font-semibold text-indigo-300 mb-2"><IconStar />Min. Rating</label>
                     <input
                         type="number"
                         name="rating"

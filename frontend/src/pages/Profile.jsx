@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import userService from '../services/userService';
 import AuthContext from '../context/AuthContext';
+import { IconUser, IconCheck, IconX } from '../components/Icons';
 
 const Profile = () => {
     const [formData, setFormData] = useState({
@@ -62,12 +63,12 @@ const Profile = () => {
     return (
         <div className="w-full max-w-lg mx-auto mt-8">
             <div className="mb-8">
-                <h2 className="text-4xl font-bold bg-gradient-to-r from-indigo-300 to-purple-300 bg-clip-text text-transparent mb-2">👤 User Profile</h2>
+                <h2 className="text-4xl font-bold bg-gradient-to-r from-indigo-300 to-purple-300 bg-clip-text text-transparent mb-2"><IconUser /> User Profile</h2>
                 <div className="h-1 w-32 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full"></div>
             </div>
             {message && (
                 <div className={`p-4 mb-4 text-sm text-center rounded-lg border ${message.includes('successfully') ? 'bg-green-500/20 text-green-300 border-green-500/50' : 'bg-red-500/20 text-red-300 border-red-500/50'}`} role="alert">
-                    {message.includes('successfully') ? '✅' : '❌'} {message}
+                    {message.includes('successfully') ? <><IconCheck />{message}</> : <><IconX />{message}</>}
                 </div>
             )}
             <form className="space-y-5 bg-gradient-to-br from-gray-800 to-gray-900 p-8 shadow-2xl rounded-2xl border border-indigo-500/20" onSubmit={onSubmit}>

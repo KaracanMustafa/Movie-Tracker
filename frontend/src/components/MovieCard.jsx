@@ -1,4 +1,5 @@
 import React from 'react';
+import { IconCalendar } from './Icons';
 import { Link } from 'react-router-dom';
 
 const MovieCard = ({ movie, onAddToWatchlist }) => {
@@ -26,7 +27,7 @@ const MovieCard = ({ movie, onAddToWatchlist }) => {
             <div className="p-4 flex flex-col flex-grow bg-gradient-to-b from-gray-800/90 to-gray-900/90 backdrop-blur">
                 <h3 className="font-bold text-base text-white group-hover:text-indigo-300 transition-colors flex-grow line-clamp-2">{movie.title}</h3>
                 <p className="text-xs text-indigo-300 mt-2">
-                    📅 {movie.release_date ? movie.release_date.substring(0, 4) : 'N/A'}
+                    <IconCalendar /> {movie.release_date ? movie.release_date.substring(0, 4) : 'N/A'}
                 </p>
                 <button
                     onClick={handleAdd}

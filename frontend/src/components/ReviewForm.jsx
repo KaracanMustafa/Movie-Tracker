@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { IconStar, IconX } from './Icons';
 import reviewService from '../services/reviewService';
 
 const ReviewForm = ({ tmdbId, onReviewSubmitted }) => {
@@ -26,8 +27,8 @@ const ReviewForm = ({ tmdbId, onReviewSubmitted }) => {
 
     return (
         <div className="mt-8 bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-2xl shadow-2xl border border-indigo-500/20">
-            <h3 className="text-2xl font-bold mb-4 text-indigo-300">⭐ Write a Review</h3>
-            {error && <p className="text-red-400 mb-4 bg-red-500/20 border border-red-500/50 rounded-lg p-3">❌ {error}</p>}
+            <h3 className="text-2xl font-bold mb-4 text-indigo-300"><IconStar /> Write a Review</h3>
+            {error && <p className="text-red-400 mb-4 bg-red-500/20 border border-red-500/50 rounded-lg p-3"><IconX /> {error}</p>}
             <form onSubmit={onSubmit}>
                 <div className="mb-4">
                     <label htmlFor="rating" className="block text-sm font-semibold text-indigo-300 mb-2">Your Rating</label>

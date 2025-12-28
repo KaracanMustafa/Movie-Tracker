@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import watchlistService from '../services/watchlistService';
 import UpdateWatchlistModal from '../components/UpdateWatchlistModal';
+import { IconX, IconFilm, IconPin, IconStar } from '../components/Icons';
 
 const Watchlist = () => {
     const [watchlist, setWatchlist] = useState([]);
@@ -64,19 +65,19 @@ const Watchlist = () => {
     }
 
     if (error) {
-        return <div className="text-center mt-8 text-red-400 bg-red-500/20 border border-red-500/50 rounded-lg p-4">❌ {error}</div>;
+        return <div className="text-center mt-8 text-red-400 bg-red-500/20 border border-red-500/50 rounded-lg p-4"><IconX />{error}</div>;
     }
 
     return (
         <>
             <div className="container mx-auto px-4 py-8 space-y-8">
                 <div>
-                    <h1 className="text-4xl md:text-5xl font-bold mb-2 bg-gradient-to-r from-indigo-300 to-purple-300 bg-clip-text text-transparent">🎬 My Watchlist</h1>
+                    <h1 className="text-4xl md:text-5xl font-bold mb-2 bg-gradient-to-r from-indigo-300 to-purple-300 bg-clip-text text-transparent"><IconFilm /> My Watchlist</h1>
                     <div className="h-1 w-40 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full"></div>
                 </div>
                 {watchlist.length === 0 ? (
                     <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-12 rounded-2xl border border-indigo-500/20 text-center">
-                        <p className="text-gray-400 text-lg">📽️ Your watchlist is empty. Add some movies!</p>
+                        <p className="text-gray-400 text-lg"><IconFilm /> Your watchlist is empty. Add some movies!</p>
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
@@ -90,8 +91,8 @@ const Watchlist = () => {
                                 <div className="p-4 flex flex-col flex-grow space-y-3">
                                     <h3 className="font-bold text-base text-white line-clamp-2">{item.title}</h3>
                                     <div className="space-y-1 text-sm">
-                                        <p className="text-indigo-300">📌 Status: <span className="text-gray-300">{item.status}</span></p>
-                                        <p className="text-purple-300">⭐ Score: <span className="text-gray-300">{item.score}/10</span></p>
+                                        <p className="text-indigo-300"><IconPin />Status: <span className="text-gray-300">{item.status}</span></p>
+                                        <p className="text-purple-300"><IconStar />Score: <span className="text-gray-300">{item.score}/10</span></p>
                                     </div>
                                     <div className="mt-4 flex justify-between gap-2">
                                         <button

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import watchlistService from '../services/watchlistService';
+import { IconCog, IconStar } from './Icons';
 
 const UpdateWatchlistModal = ({ item, onClose, onUpdate }) => {
     const [formData, setFormData] = useState({
@@ -39,7 +40,7 @@ const UpdateWatchlistModal = ({ item, onClose, onUpdate }) => {
         <div className="fixed inset-0 bg-black bg-opacity-60 overflow-y-auto h-full w-full z-50 flex items-center justify-center">
             <div className="relative mx-auto p-6 border w-96 shadow-2xl rounded-2xl bg-gradient-to-br from-gray-800 to-gray-900 border-indigo-500/30">
                 <div className="mt-3 text-center">
-                    <h3 className="text-lg leading-6 font-bold text-indigo-300">✏️ Update "{item.title}"</h3>
+                    <h3 className="text-lg leading-6 font-bold text-indigo-300"><IconCog /> Update "{item.title}"</h3>
                     <form className="mt-4 px-2 py-3" onSubmit={onSubmit}>
                         <div className="mb-4">
                             <label htmlFor="status" className="block text-sm font-semibold text-indigo-300 text-left mb-2">
@@ -57,7 +58,7 @@ const UpdateWatchlistModal = ({ item, onClose, onUpdate }) => {
                         </div>
                         <div className="mb-4">
                             <label htmlFor="score" className="block text-sm font-semibold text-indigo-300 text-left mb-2">
-                                Score (0-10) ⭐
+                                <IconStar /> Score (0-10)
                             </label>
                             <input
                                 id="score"

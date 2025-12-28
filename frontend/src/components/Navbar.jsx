@@ -1,21 +1,34 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
+import Search from './Search';
+import { IconFilm, IconUser, IconCog } from './Icons';
 
 const Navbar = () => {
     const { user, logout } = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    const handleSearch = (query) => {
+        if (!query) return;
+        navigate(`/?q=${encodeURIComponent(query)}`);
+    };
 
     return (
         <nav className="bg-gradient-to-r from-indigo-950 via-blue-950 to-indigo-950 shadow-2xl border-b border-indigo-500/20 sticky top-0 z-50">
             <div className="container mx-auto px-4">
                 <div className="flex justify-between items-center py-4">
-                    <Link to="/" className="text-2xl font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent hover:from-indigo-300 hover:to-purple-300 transition-all duration-300">
-                        🎬 YU-Movie
+                    <Link to="/" className="text-2xl font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent hover:from-indigo-300 hover:to-purple-300 transition-all duration-300 flex items-center">
+                        <IconFilm /> YU-Movie
                     </Link>
+
+                    <div className="flex-1 mx-6 hidden md:block">
+                        <Search onSearch={handleSearch} />
+                    </div>
+
                     <div className="flex items-center space-x-6">
                         {user ? (
                             <>
-                                <span className="text-sm text-indigo-200 hidden md:inline">👋 {user.name || 'User'}</span>
+                                <span className="text-sm text-indigo-200 hidden md:inline"><IconUser />{user.name || 'User'}</span>
                                 <Link to="/" className="text-white hover:text-indigo-300 transition-colors text-sm md:text-base">
                                     Home
                                 </Link>
@@ -29,8 +42,8 @@ const Navbar = () => {
                                     Profile
                                 </Link>
                                 {user.role === 'admin' && (
-                                    <Link to="/admin" className="text-yellow-300 hover:text-yellow-200 font-bold transition-colors text-sm md:text-base">
-                                        ⚙️ Admin
+                                    <Link to="/admin" className="text-yellow-300 hover:text-yellow-200 font-bold transition-colors text-sm md:text-base flex items-center">
+                                        <IconCog /> Admin
                                     </Link>
                                 )}
                                 <button

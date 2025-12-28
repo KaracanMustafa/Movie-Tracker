@@ -9,35 +9,14 @@ const app = express();
 const allowedMethods = 'GET,POST,PUT,DELETE,OPTIONS';
 const allowedHeaders = 'Origin, X-Requested-With, Content-Type, Accept, x-auth-token';
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      // Allow specific origins via env or reflect any origin if not set
-      const envOrigins = process.env.CLIENT_ORIGIN ? process.env.CLIENT_ORIGIN.split(',') : null;
-      if (!envOrigins || !origin || envOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-      return callback(new Error('Not allowed by CORS'));
-    },
-    methods: allowedMethods,
-    allowedHeaders: allowedHeaders,
-    credentials: false,
-    optionsSuccessStatus: 204,
-  })
-);
+// Simplify: allow any origin (no credentials) to avoid preview-domain mismatch
+app.use(cors({ origin: true, methods: allowedMethods, allowedHeaders, credentials: false, optionsSuccessStatus: 204 }));
 
 // Ensure preflight has headers
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Methods', allowedMethods);
   res.header('Access-Control-Allow-Headers', allowedHeaders);
-  next();
-});
-
-// Fast exit for preflight
-app.use((req, res, next) => {
-  if (req.method === 'OPTIONS') {
-    return res.sendStatus(204);
-  }
+  if (req.method === 'OPTIONS') return res.sendStatus(204);
   next();
 });
 

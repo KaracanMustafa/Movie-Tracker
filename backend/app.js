@@ -27,11 +27,21 @@ const db = process.env.MONGO_URI;
 
 // Connect to MongoDB (avoid duplicate connections on serverless by reusing)
 let isConnected = false;
+let lastDbError = null;
 async function connectDB() {
   if (isConnected) return;
-  await mongoose.connect(db);
-  isConnected = true;
-  console.log('MongoDB Connected...');
+  try {
+    await mongoose.connect(db, {
+      dbName: process.env.MONGO_DB || undefined,
+      serverSelectionTimeoutMS: 5000,
+    });
+    isConnected = true;
+    lastDbError = null;
+    console.log('MongoDB Connected...');
+  } catch (err) {
+    lastDbError = err && err.message ? err.message : String(err);
+    console.log('MongoDB connection error:', lastDbError);
+  }
 }
 
 // health route
@@ -67,6 +77,8 @@ app.get('/api/health', (req, res) => {
     db: {
       connected: dbState === 1,
       state: dbState,
+      dbNameUsed: process.env.MONGO_DB || null,
+      lastError: lastDbError,
     },
     ts: new Date().toISOString(),
   });
@@ -81,7 +93,7 @@ app.get('/health', (req, res) => {
   res.json({
     ok: true,
     env: { MONGO_URI: hasMongo, JWT_SECRET: hasJwt, TMDB_API_KEY: hasTmdb },
-    db: { connected: dbState === 1, state: dbState },
+    db: { connected: dbState === 1, state: dbState, dbNameUsed: process.env.MONGO_DB || null, lastError: lastDbError },
     ts: new Date().toISOString(),
   });
 });

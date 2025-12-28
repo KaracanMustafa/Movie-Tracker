@@ -4,6 +4,7 @@ import watchlistService from '../services/watchlistService';
 import Search from '../components/Search';
 import AdvancedSearch from '../components/AdvancedSearch';
 import MovieCard from '../components/MovieCard';
+import { MovieCardSkeleton } from '../components/Skeleton';
 
 const HomePage = () => {
     const [movies, setMovies] = useState([]);

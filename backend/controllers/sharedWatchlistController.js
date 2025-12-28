@@ -6,6 +6,10 @@ const User = require('../models/User');
 // @access  Private
 exports.createSharedWatchlist = async (req, res) => {
     const { name } = req.body;
+    // Debug logs - remove after troubleshooting
+    console.log('createSharedWatchlist request body:', req.body);
+    console.log('createSharedWatchlist req.user (from auth):', req.user && { id: req.user.id, email: req.user.email });
+
     if (!req.user) {
         return res.status(401).json({ msg: 'Authorization required' });
     }
@@ -21,7 +25,8 @@ exports.createSharedWatchlist = async (req, res) => {
         res.status(201).json(savedList);
     } catch (err) {
         console.error('createSharedWatchlist error:', err);
-        res.status(500).json({ msg: err.message || 'Server Error' });
+        // Return error name and message for debugging (remove stack in production)
+        res.status(500).json({ msg: err.message || 'Server Error', error: err.name });
     }
 };
 

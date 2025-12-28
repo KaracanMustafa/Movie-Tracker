@@ -32,13 +32,16 @@ const SharedWatchlistSchema = new Schema({
 });
 
 // Ensure the owner is also a member
-SharedWatchlistSchema.pre('save', function (next) {
+// Use a synchronous pre-save hook (no `next` callback) and safe ObjectId comparison
+SharedWatchlistSchema.pre('save', function () {
     if (this.isNew) {
-        if (!this.members.includes(this.owner)) {
+        const ownerId = this.owner && this.owner.toString ? this.owner.toString() : String(this.owner);
+        const hasOwner = (this.members || []).some(m => (m && m.toString ? m.toString() : String(m)) === ownerId);
+        if (!hasOwner) {
+            this.members = this.members || [];
             this.members.push(this.owner);
         }
     }
-    next();
 });
 
 module.exports = SharedWatchlist = mongoose.model('sharedwatchlist', SharedWatchlistSchema);

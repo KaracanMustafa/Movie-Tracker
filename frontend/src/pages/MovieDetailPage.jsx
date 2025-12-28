@@ -2,10 +2,12 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import movieService from '../services/movieService';
 import reviewService from '../services/reviewService';
+import watchlistService from '../services/watchlistService';
 import AuthContext from '../context/AuthContext';
 import ReviewList from '../components/ReviewList';
 import ReviewForm from '../components/ReviewForm';
 import { IconStar, IconCalendar, IconPin } from '../components/Icons';
+import AddToSharedListModal from '../components/AddToSharedListModal';
 
 const MovieDetailPage = () => {
     const { id } = useParams();
@@ -39,6 +41,34 @@ const MovieDetailPage = () => {
 
     const handleReviewSubmitted = (newReview) => {
         setReviews([newReview, ...reviews]);
+    };
+
+    const [isAddModalOpen, setIsAddModalOpen] = React.useState(false);
+    const openAddModal = () => setIsAddModalOpen(true);
+    const closeAddModal = () => setIsAddModalOpen(false);
+    const onMovieAddedToList = (updatedMovies) => {
+        // optional: show a toast or console
+        console.log('movie added to list', updatedMovies);
+    };
+
+    const handleAddToWatchlist = async () => {
+        if (!user) {
+            alert('Please login to add to your watchlist.');
+            return;
+        }
+        try {
+            const itemData = {
+                tmdbId: String(movie.id),
+                title: movie.title,
+                poster_path: movie.poster_path || '',
+            };
+            await watchlistService.addToWatchlist(itemData);
+            alert(`'${movie.title}' added to your watchlist!`);
+        } catch (err) {
+            console.error('Failed to add to watchlist', err);
+            const msg = err?.response?.data?.msg || err.message || 'Failed to add to watchlist';
+            alert(`Error: ${msg}`);
+        }
     };
 
     if (loading) return (
@@ -93,6 +123,15 @@ const MovieDetailPage = () => {
                         </div>
                     </div>
 
+                    <div className="mt-4 flex gap-3">
+                        {user && (
+                            <>
+                                <button onClick={openAddModal} className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-white font-semibold">Add to Shared List</button>
+                                <button onClick={handleAddToWatchlist} className="px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg text-white font-semibold">Add to Watchlist</button>
+                            </>
+                        )}
+                    </div>
+
                     <div className="my-4">
                         {Array.isArray(movie.genres) && movie.genres.length > 0 && movie.genres.map(g => (
                             <span key={g.id || g.name} className="inline-block bg-indigo-700/30 rounded-full px-3 py-1 text-sm font-semibold text-indigo-200 mr-2 mb-2">
@@ -125,6 +164,10 @@ const MovieDetailPage = () => {
                     <ReviewForm tmdbId={id} onReviewSubmitted={handleReviewSubmitted} />
                 )}
             </div>
+
+            {isAddModalOpen && (
+                <AddToSharedListModal movie={movie} onClose={closeAddModal} onAdded={onMovieAddedToList} />
+            )}
         </div>
     );
 };

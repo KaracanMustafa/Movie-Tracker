@@ -36,11 +36,30 @@ const createSharedWatchlist = (name) => {
     return api.post('/', { name });
 };
 
+// Add a movie to a shared watchlist (listId)
+const addMovieToList = (listId, movie) => {
+    // movie should include: { tmdbId, title, poster_path }
+    return api.post(`/${listId}/movies`, movie);
+};
+
+// Get shared watchlist by id
+const getSharedWatchlistById = (id) => {
+    return api.get(`/${id}`);
+};
+
+// Add member to shared list (owner only)
+const addMember = (id, payload) => {
+    return api.post(`/${id}/members`, payload);
+};
+
 // --- Other functions to be added later ---
 
 const sharedWatchlistService = {
     getMySharedWatchlists,
     createSharedWatchlist,
+    addMovieToList,
+    getSharedWatchlistById,
+    addMember,
 };
 
 export default sharedWatchlistService;

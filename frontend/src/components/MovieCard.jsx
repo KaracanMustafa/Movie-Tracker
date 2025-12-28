@@ -1,5 +1,5 @@
 import React from 'react';
-import { IconCalendar } from './Icons';
+import { IconCalendar, IconStar } from './Icons';
 import { Link } from 'react-router-dom';
 
 const MovieCard = ({ movie, onAddToWatchlist }) => {
@@ -23,6 +23,13 @@ const MovieCard = ({ movie, onAddToWatchlist }) => {
             <div className="relative overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900">
                 <img src={posterUrl} alt={movie.title} className="w-full h-72 object-cover group-hover:scale-110 transition-transform duration-500" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                {/* Rating badge */}
+                {movie.vote_average !== undefined && (
+                    <div className="absolute top-2 right-2 bg-black/70 text-white px-2 py-1 rounded-lg flex items-center text-sm">
+                        <IconStar className="w-4 h-4 mr-1 text-yellow-400" />
+                        <span className="font-semibold">{(movie.vote_average || 0).toFixed(1)}</span>
+                    </div>
+                )}
             </div>
             <div className="p-4 flex flex-col flex-grow bg-gradient-to-b from-gray-800/90 to-gray-900/90 backdrop-blur">
                 <h3 className="font-bold text-base text-white group-hover:text-indigo-300 transition-colors flex-grow line-clamp-2">{movie.title}</h3>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import sharedWatchlistService from '../services/sharedWatchlistService';
 import { IconFilm, IconInfo, IconPin, IconUser } from '../components/Icons';
 
@@ -86,9 +87,11 @@ const SharedWatchlistsPage = () => {
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {lists.map(list => (
-                            <div 
-                                key={list._id} 
-                                className="bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-2xl shadow-xl border border-indigo-500/20 hover:border-indigo-500/50 transition-all duration-300 hover:shadow-2xl hover:scale-105"
+                            <Link
+                                to={`/shared-watchlists/${list._id}`}
+                                key={list._id}
+                                aria-label={`Open shared list ${list.name}`}
+                                className="block bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-2xl shadow-xl border border-indigo-500/20 hover:border-indigo-500/50 transition-all duration-300 hover:shadow-2xl hover:scale-105"
                             >
                                 <h3 className="text-xl font-bold text-white mb-4">{list.name}</h3>
                                 <div className="space-y-2 text-sm">
@@ -102,8 +105,7 @@ const SharedWatchlistsPage = () => {
                                         <IconFilm /> Movies: <span className="text-gray-300">{list.movies.length}</span>
                                     </p>
                                 </div>
-                                {/* Link to detail page will go here */}
-                            </div>
+                            </Link>
                         ))}
                     </div>
                 )}

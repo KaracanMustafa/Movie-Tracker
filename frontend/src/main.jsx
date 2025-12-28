@@ -11,6 +11,7 @@ import Profile from './pages/Profile';
 import MovieDetailPage from './pages/MovieDetailPage';
 import AdminDashboard from './pages/AdminDashboard';
 import SharedWatchlistsPage from './pages/SharedWatchlistsPage';
+import SharedWatchlistDetail from './pages/SharedWatchlistDetail';
 import PrivateRoute from './components/PrivateRoute';
 import AdminRoute from './components/AdminRoute';
 import './index.css';
@@ -25,6 +26,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
               <Route index element={<HomePage />} />
               <Route path="watchlist" element={<Watchlist />} />
               <Route path="shared-watchlists" element={<SharedWatchlistsPage />} />
+              <Route path="shared-watchlists/:id" element={<SharedWatchlistDetail />} />
               <Route path="profile" element={<Profile />} />
               <Route path="movie/:id" element={<MovieDetailPage />} />
             </Route>

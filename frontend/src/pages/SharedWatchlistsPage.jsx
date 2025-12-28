@@ -34,7 +34,16 @@ const SharedWatchlistsPage = () => {
         }
     };
 
-    if (loading) return <p className="text-indigo-300 text-center py-8">⏳ Loading shared watchlists...</p>;
+    if (loading) return (
+        <div className="space-y-4 py-8">
+            {Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} className="p-4 bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border border-gray-700/40">
+                    <div className="skeleton skeleton-line w-1/2 mb-2"></div>
+                    <div className="skeleton skeleton-subline w-1/3"></div>
+                </div>
+            ))}
+        </div>
+    );
 
     return (
         <div className="container mx-auto px-4 py-8 space-y-8">

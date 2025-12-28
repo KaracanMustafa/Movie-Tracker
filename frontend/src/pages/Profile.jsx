@@ -49,7 +49,14 @@ const Profile = () => {
     };
 
     if (loading) {
-        return <div className="text-center mt-8 text-indigo-300">⏳ Loading profile...</div>;
+        return (
+            <div className="max-w-3xl mx-auto mt-8 space-y-4">
+                <div className="skeleton skeleton-line w-1/3 mx-auto"></div>
+                <div className="skeleton skeleton-subline w-1/2 mx-auto"></div>
+                <div className="skeleton skeleton-line"></div>
+                <div className="skeleton skeleton-line"></div>
+            </div>
+        );
     }
 
     return (

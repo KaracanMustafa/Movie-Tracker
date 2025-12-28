@@ -40,7 +40,20 @@ const MovieDetailPage = () => {
         setReviews([newReview, ...reviews]);
     };
 
-    if (loading) return <div className="text-center mt-8">Loading...</div>;
+    if (loading) return (
+        <div className="max-w-4xl mx-auto mt-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="skeleton skeleton-img rounded-lg"></div>
+                <div className="md:col-span-2 space-y-4">
+                    <div className="skeleton skeleton-line w-3/4"></div>
+                    <div className="skeleton skeleton-line w-1/2"></div>
+                    <div className="skeleton skeleton-subline w-1/3"></div>
+                    <div className="skeleton skeleton-line"></div>
+                    <div className="skeleton skeleton-line"></div>
+                </div>
+            </div>
+        </div>
+    );
     if (error) return <div className="text-center mt-8 text-red-500">{error}</div>;
     if (!movie) return <div className="text-center mt-8">Movie not found.</div>;
 

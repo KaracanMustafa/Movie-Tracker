@@ -50,7 +50,17 @@ const Watchlist = () => {
     };
 
     if (loading) {
-        return <div className="text-center mt-8 text-indigo-300">⏳ Loading your watchlist...</div>;
+        return (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-8">
+                {Array.from({ length: 8 }).map((_, i) => (
+                    <div key={i} className="rounded-xl overflow-hidden">
+                        <div className="skeleton skeleton-img mb-4"></div>
+                        <div className="skeleton skeleton-line mb-2"></div>
+                        <div className="skeleton skeleton-subline"></div>
+                    </div>
+                ))}
+            </div>
+        );
     }
 
     if (error) {

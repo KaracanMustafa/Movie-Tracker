@@ -100,7 +100,13 @@ const HomePage = () => {
                 <div className="h-1 w-32 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full"></div>
             </div>
 
-            {loading && <div className="text-center py-12"><div className="text-xl text-indigo-300">⏳ Loading amazing movies...</div></div>}
+            {loading && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+                    {Array.from({ length: 10 }).map((_, i) => (
+                        <MovieCardSkeleton key={i} />
+                    ))}
+                </div>
+            )}
             {error && <div className="text-center py-12 text-red-400 bg-red-500/10 rounded-lg p-4">❌ {error}</div>}
             {message && <div className="text-center py-12 text-indigo-300 bg-indigo-500/10 rounded-lg p-4">ℹ️ {message}</div>}
 

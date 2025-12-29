@@ -8,11 +8,12 @@ const TMDB_API_URL = 'https://api.themoviedb.org/3';
 // @access  Private
 exports.getPopularMovies = async (req, res) => {
     try {
+        const page = parseInt(req.query.page) || 1;
         const response = await axios.get(`${TMDB_API_URL}/movie/popular`, {
             params: {
                 api_key: TMDB_API_KEY,
                 language: 'en-US',
-                page: req.query.page || 1,
+                page: page,
             },
         });
         res.json(response.data);
@@ -32,12 +33,13 @@ exports.searchMovies = async (req, res) => {
     }
 
     try {
+        const pageNum = parseInt(page) || 1;
         const response = await axios.get(`${TMDB_API_URL}/search/movie`, {
             params: {
                 api_key: TMDB_API_KEY,
                 language: 'en-US',
                 query: query,
-                page: page || 1,
+                page: pageNum,
             },
         });
         res.json(response.data);
@@ -76,7 +78,7 @@ exports.discoverMovies = async (req, res) => {
         language: 'en-US',
         sort_by: 'popularity.desc',
         include_adult: false,
-        page: page || 1,
+        page: parseInt(page) || 1,
     };
 
     if (genre) params.with_genres = genre;

@@ -123,7 +123,7 @@ const MovieDetailPage = () => {
                         </div>
                     </div>
 
-                    <div className="mt-4 flex gap-3">
+                    <div className="mt-4 flex flex-wrap gap-3">
                         {user && (
                             <>
                                 <button onClick={openAddModal} className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-white font-semibold">Add to Shared List</button>

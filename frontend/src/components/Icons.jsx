@@ -40,6 +40,10 @@ export const IconSearch = ({ className = 'w-4 h-4 inline-block mr-2' }) => (
   <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z"/></svg>
 );
 
+export const IconMenu = ({ className = 'w-6 h-6 inline-block' }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" /></svg>
+);
+
 export const IconCog = ({ className = 'w-5 h-5 inline-block mr-2' }) => (
   <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0a1.724 1.724 0 002.573 1.02c.87-.58 2.068.18 1.688 1.17-.22.6-.34 1.23-.34 1.88 0 .65.12 1.28.34 1.88.38.99-.82 1.75-1.69 1.17a1.724 1.724 0 00-2.57 1.02c-.299.92-1.603.92-1.902 0a1.724 1.724 0 00-2.573-1.02c-.87.58-2.068-.18-1.688-1.17.22-.6.34-1.23.34-1.88 0-.65-.12-1.28-.34-1.88-.38-.99.82-1.75 1.69-1.17a1.724 1.724 0 002.57-1.02z"/></svg>
 );

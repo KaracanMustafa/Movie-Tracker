@@ -56,64 +56,69 @@ const AdminDashboard = () => {
 
     return (
         <div className="container mx-auto p-4">
-            <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
-
-            <div className="border-b border-gray-200">
-                <nav className="-mb-px flex space-x-8" aria-label="Tabs">
-                    <button onClick={() => setView('users')} className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm ${view === 'users' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}>
-                        Manage Users
-                    </button>
-                    <button onClick={() => setView('reviews')} className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm ${view === 'reviews' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}>
-                        Manage Reviews
-                    </button>
-                </nav>
+            <div className="mb-8">
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-300 to-purple-300 bg-clip-text text-transparent mb-2">Admin Dashboard</h1>
+                <div className="h-1 w-32 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full"></div>
             </div>
 
-            {view === 'users' && (
-                <div className="mt-8">
-                    <h2 className="text-2xl font-bold mb-4">Users ({users.length})</h2>
-                    <div className="overflow-x-auto bg-white rounded-lg shadow">
-                         <table className="min-w-full divide-y divide-gray-200">
-                            <thead className="bg-gray-50">
-                                <tr>
-                                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
-                                    <th scope="col" className="relative px-6 py-3"><span className="sr-only">Delete</span></th>
-                                </tr>
-                            </thead>
-                            <tbody className="bg-white divide-y divide-gray-200">
-                                {users.map(user => (
-                                    <tr key={user._id}>
-                                        <td className="px-6 py-4 whitespace-nowrap">{user.name}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap">{user.email}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap">{user.role}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            {user.role !== 'admin' && (
-                                                <button onClick={() => handleDeleteUser(user._id)} className="text-red-600 hover:text-red-900">Delete</button>
-                                            )}
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
+            <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-2xl shadow-2xl border border-indigo-500/20">
+                <div className="border-b border-indigo-700/30">
+                    <nav className="-mb-px flex space-x-8" aria-label="Tabs">
+                        <button onClick={() => setView('users')} className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm ${view === 'users' ? 'border-indigo-300 text-indigo-300' : 'border-transparent text-indigo-200/80 hover:text-indigo-100 hover:border-indigo-600/30'}`}>
+                            Manage Users
+                        </button>
+                        <button onClick={() => setView('reviews')} className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm ${view === 'reviews' ? 'border-indigo-300 text-indigo-300' : 'border-transparent text-indigo-200/80 hover:text-indigo-100 hover:border-indigo-600/30'}`}>
+                            Manage Reviews
+                        </button>
+                    </nav>
                 </div>
-            )}
 
-            {view === 'reviews' && (
-                <div className="mt-8">
-                    <h2 className="text-2xl font-bold mb-4">Reviews ({reviews.length})</h2>
-                    {reviews.map(review => (
-                        <div key={review._id} className="bg-white p-4 rounded-lg shadow mb-4">
-                            <p><strong>{review.username}</strong> reviewed movie <strong>{review.tmdbId}</strong></p>
-                            <p>Rating: {review.rating}/10</p>
-                            <p className="mt-2 italic">"{review.text}"</p>
-                            <button onClick={() => handleDeleteReview(review._id)} className="text-red-600 hover:text-red-900 mt-2 text-sm">Delete Review</button>
+                {view === 'users' && (
+                    <div className="mt-8">
+                        <h2 className="text-2xl font-bold mb-4 text-indigo-200">Users ({users.length})</h2>
+                        <div className="overflow-x-auto bg-gray-800 rounded-lg">
+                             <table className="min-w-full divide-y divide-indigo-700">
+                                <thead className="bg-gray-900">
+                                    <tr>
+                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-indigo-300 uppercase tracking-wider">Name</th>
+                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-indigo-300 uppercase tracking-wider">Email</th>
+                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-indigo-300 uppercase tracking-wider">Role</th>
+                                        <th scope="col" className="relative px-6 py-3"><span className="sr-only">Delete</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody className="bg-gray-800 divide-y divide-indigo-700 text-indigo-100">
+                                    {users.map(user => (
+                                        <tr key={user._id}>
+                                            <td className="px-6 py-4 whitespace-nowrap">{user.name}</td>
+                                            <td className="px-6 py-4 whitespace-nowrap">{user.email}</td>
+                                            <td className="px-6 py-4 whitespace-nowrap">{user.role}</td>
+                                            <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                                {user.role !== 'admin' && (
+                                                    <button onClick={() => handleDeleteUser(user._id)} className="text-red-400 hover:text-red-300">Delete</button>
+                                                )}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
                         </div>
-                    ))}
-                </div>
-            )}
+                    </div>
+                )}
+
+                {view === 'reviews' && (
+                    <div className="mt-8">
+                        <h2 className="text-2xl font-bold mb-4 text-indigo-200">Reviews ({reviews.length})</h2>
+                        {reviews.map(review => (
+                            <div key={review._id} className="bg-gray-800 p-4 rounded-lg mb-4 border border-indigo-700/20">
+                                <p className="text-indigo-100"><strong className="text-indigo-200">{review.username}</strong> reviewed movie <strong className="text-indigo-200">{review.tmdbId}</strong></p>
+                                <p className="text-indigo-100">Rating: {review.rating}/10</p>
+                                <p className="mt-2 italic text-indigo-200">"{review.text}"</p>
+                                <button onClick={() => handleDeleteReview(review._id)} className="text-red-400 hover:text-red-300 mt-2 text-sm">Delete Review</button>
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

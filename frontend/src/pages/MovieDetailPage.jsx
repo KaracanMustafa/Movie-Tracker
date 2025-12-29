@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import movieService from '../services/movieService';
 import reviewService from '../services/reviewService';
 import watchlistService from '../services/watchlistService';
@@ -41,19 +42,19 @@ const MovieDetailPage = () => {
 
     const handleReviewSubmitted = (newReview) => {
         setReviews([newReview, ...reviews]);
+        toast.success('Review submitted!');
     };
 
     const [isAddModalOpen, setIsAddModalOpen] = React.useState(false);
     const openAddModal = () => setIsAddModalOpen(true);
     const closeAddModal = () => setIsAddModalOpen(false);
     const onMovieAddedToList = (updatedMovies) => {
-        // optional: show a toast or console
-        console.log('movie added to list', updatedMovies);
+        toast.success('Movie added to shared list!');
     };
 
     const handleAddToWatchlist = async () => {
         if (!user) {
-            alert('Please login to add to your watchlist.');
+            toast.error('Please login to add to your watchlist.');
             return;
         }
         try {
@@ -63,11 +64,11 @@ const MovieDetailPage = () => {
                 poster_path: movie.poster_path || '',
             };
             await watchlistService.addToWatchlist(itemData);
-            alert(`'${movie.title}' added to your watchlist!`);
+            toast.success(`'${movie.title}' added to your watchlist!`);
         } catch (err) {
             console.error('Failed to add to watchlist', err);
             const msg = err?.response?.data?.msg || err.message || 'Failed to add to watchlist';
-            alert(`Error: ${msg}`);
+            toast.error(msg);
         }
     };
 
@@ -126,8 +127,8 @@ const MovieDetailPage = () => {
                     <div className="mt-4 flex flex-wrap gap-3">
                         {user && (
                             <>
-                                <button onClick={openAddModal} className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-white font-semibold">Add to Shared List</button>
-                                <button onClick={handleAddToWatchlist} className="px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg text-white font-semibold">Add to Watchlist</button>
+                                <button onClick={openAddModal} className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-white font-semibold shadow-lg hover:shadow-indigo-500/30 transition-all duration-300">Add to Shared List</button>
+                                <button onClick={handleAddToWatchlist} className="px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg text-white font-semibold shadow-lg hover:shadow-green-500/30 transition-all duration-300">Add to Watchlist</button>
                             </>
                         )}
                     </div>

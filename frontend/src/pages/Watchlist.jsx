@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import watchlistService from '../services/watchlistService';
 import UpdateWatchlistModal from '../components/UpdateWatchlistModal';
-import { IconX, IconFilm, IconPin, IconStar } from '../components/Icons';
+import { IconX, IconFilm, IconPin, IconStar, IconSearch } from '../components/Icons';
 
 const Watchlist = () => {
     const [watchlist, setWatchlist] = useState([]);
@@ -17,6 +19,7 @@ const Watchlist = () => {
                 setWatchlist(response.data);
             } catch (err) {
                 setError('Failed to fetch watchlist.');
+                toast.error('Failed to fetch watchlist.');
                 console.error(err);
             } finally {
                 setLoading(false);
@@ -27,12 +30,15 @@ const Watchlist = () => {
     }, []);
 
     const handleDelete = async (id) => {
+        if (!window.confirm('Are you sure you want to remove this movie?')) return;
+        
         try {
             await watchlistService.deleteWatchlistItem(id);
             setWatchlist(watchlist.filter(item => item._id !== id));
+            toast.success('Movie removed from watchlist');
         } catch (err) {
             console.error('Failed to delete item', err);
-            setError('Failed to delete item. Please try again.');
+            toast.error('Failed to delete item. Please try again.');
         }
     };
 
@@ -48,6 +54,7 @@ const Watchlist = () => {
 
     const handleItemUpdate = (updatedItem) => {
         setWatchlist(watchlist.map(item => (item._id === updatedItem._id ? updatedItem : item)));
+        toast.success('Watchlist item updated!');
     };
 
     if (loading) {
@@ -76,8 +83,18 @@ const Watchlist = () => {
                     <div className="h-1 w-40 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full"></div>
                 </div>
                 {watchlist.length === 0 ? (
-                    <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-12 rounded-2xl border border-indigo-500/20 text-center">
-                        <p className="text-gray-400 text-lg"><IconFilm /> Your watchlist is empty. Add some movies!</p>
+                    <div className="flex flex-col items-center justify-center py-20 text-center bg-gradient-to-br from-gray-800/50 to-gray-900/50 rounded-2xl border border-indigo-500/20 backdrop-blur-sm">
+                        <div className="bg-indigo-900/30 p-6 rounded-full mb-6">
+                            <IconFilm className="w-16 h-16 text-indigo-400 m-0" />
+                        </div>
+                        <h2 className="text-2xl font-bold text-white mb-2">Your watchlist is empty</h2>
+                        <p className="text-gray-400 mb-8 max-w-md">Looks like you haven't added any movies yet. Explore trending movies and build your collection!</p>
+                        <Link 
+                            to="/" 
+                            className="px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-indigo-500/30 flex items-center"
+                        >
+                            <IconSearch className="mr-2" /> Start Discovering
+                        </Link>
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">

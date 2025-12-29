@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import movieService from '../services/movieService';
 import watchlistService from '../services/watchlistService';
 import AdvancedSearch from '../components/AdvancedSearch';
@@ -29,6 +30,7 @@ const HomePage = () => {
             setTotalPages(response.data.total_pages || 1);
         } catch (err) {
             setError('Failed to fetch popular movies.');
+            toast.error('Failed to fetch popular movies.');
         } finally {
             setLoading(false);
         }
@@ -64,6 +66,7 @@ const HomePage = () => {
             }
         } catch (err) {
             setError('Failed to search for movies.');
+            toast.error('Failed to search for movies.');
         } finally {
             setLoading(false);
         }
@@ -84,6 +87,7 @@ const HomePage = () => {
             }
         } catch (err) {
             setError('Failed to discover movies.');
+            toast.error('Failed to discover movies.');
         } finally {
             setLoading(false);
         }
@@ -92,10 +96,10 @@ const HomePage = () => {
     const handleAddToWatchlist = async (itemData) => {
         try {
             await watchlistService.addToWatchlist(itemData);
-            alert(`'${itemData.title}' added to your watchlist!`);
+            toast.success(`'${itemData.title}' added to your watchlist!`);
         } catch (err) {
             const errorMsg = err.response?.data?.msg || 'Failed to add item.';
-            alert(`Error: ${errorMsg}`);
+            toast.error(`Error: ${errorMsg}`);
         }
     };
 

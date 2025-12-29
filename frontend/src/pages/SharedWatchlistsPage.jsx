@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import sharedWatchlistService from '../services/sharedWatchlistService';
 import { IconFilm, IconInfo, IconPin, IconUser } from '../components/Icons';
 
@@ -14,6 +15,7 @@ const SharedWatchlistsPage = () => {
             setLists(response.data);
         } catch (error) {
             console.error("Failed to fetch shared watchlists", error);
+            toast.error("Failed to fetch shared lists");
         } finally {
             setLoading(false);
         }
@@ -33,10 +35,12 @@ const SharedWatchlistsPage = () => {
             const response = await sharedWatchlistService.createSharedWatchlist(listName);
             setLists([response.data, ...lists]);
             setListName('');
+            toast.success('Shared list created successfully!');
         } catch (error) {
             console.error('Failed to create list', error);
             const serverMsg = error?.response?.data?.msg || error?.response?.data || error.message || 'Failed to create shared list.';
-            setErrorMsg(serverMsg);
+            // setErrorMsg(serverMsg); // Optional if using toast
+            toast.error(serverMsg);
         }
     };
 
@@ -65,7 +69,7 @@ const SharedWatchlistsPage = () => {
                         type="text"
                         value={listName}
                         onChange={(e) => setListName(e.target.value)}
-                        placeholder="Enter list name..."
+                        placeholder="Enter list name (e.g., 'Friday Movie Night')"
                         className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
                         required
                     />
@@ -81,8 +85,12 @@ const SharedWatchlistsPage = () => {
             <div className="space-y-4">
                 <h2 className="text-2xl font-bold text-indigo-300"><IconPin /> My Lists</h2>
                 {lists.length === 0 ? (
-                    <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-8 rounded-2xl border border-indigo-500/20 text-center">
-                        <p className="text-gray-400 text-lg"><IconInfo /> You are not a member of any shared watchlists.</p>
+                    <div className="flex flex-col items-center justify-center py-16 text-center bg-gradient-to-br from-gray-800/50 to-gray-900/50 rounded-2xl border border-indigo-500/20 backdrop-blur-sm">
+                        <div className="bg-indigo-900/30 p-5 rounded-full mb-4">
+                            <IconUser className="w-12 h-12 text-indigo-400 m-0" />
+                        </div>
+                        <h3 className="text-xl font-bold text-white mb-2">No Shared Lists Yet</h3>
+                        <p className="text-gray-400 mb-6 max-w-md">Create a list above to start sharing movies with your friends!</p>
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

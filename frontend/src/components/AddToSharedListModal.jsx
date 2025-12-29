@@ -147,11 +147,11 @@ const AddToSharedListModal = ({ movie, onClose, onAdded }) => {
                             />
                         </div>
 
-                        <div className="flex gap-3 pt-2">
+                        <div className="flex justify-end gap-3 pt-2">
                             {lists.length > 0 && (
                                 <button 
                                     onClick={() => setShowCreateInput(false)} 
-                                    className="px-4 py-2.5 bg-gray-700 hover:bg-gray-600 text-gray-200 font-medium rounded-xl transition-all"
+                                    className="px-4 py-2 text-sm bg-gray-700 hover:bg-gray-600 text-gray-200 font-medium rounded-lg transition-all"
                                 >
                                     Cancel
                                 </button>
@@ -159,9 +159,9 @@ const AddToSharedListModal = ({ movie, onClose, onAdded }) => {
                             <button 
                                 onClick={handleCreateAndAdd} 
                                 disabled={creating || !newListName.trim()} 
-                                className="flex-1 px-4 py-2.5 bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-green-500/30 transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center"
+                                className="px-6 py-2 text-sm bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-green-500/30 transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center"
                             >
-                                {creating ? 'Creating...' : <><IconCheck className="mr-2" /> Create & Add</>}
+                                {creating ? 'Creating...' : <><IconCheck className="mr-1 w-4 h-4" /> Create & Add</>}
                             </button>
                         </div>
                     </div>

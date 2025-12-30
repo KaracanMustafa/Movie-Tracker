@@ -48,4 +48,8 @@ export const IconCog = ({ className = 'w-5 h-5 inline-block mr-2' }) => (
   <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0a1.724 1.724 0 002.573 1.02c.87-.58 2.068.18 1.688 1.17-.22.6-.34 1.23-.34 1.88 0 .65.12 1.28.34 1.88.38.99-.82 1.75-1.69 1.17a1.724 1.724 0 00-2.57 1.02c-.299.92-1.603.92-1.902 0a1.724 1.724 0 00-2.573-1.02c-.87.58-2.068-.18-1.688-1.17.22-.6.34-1.23.34-1.88 0-.65-.12-1.28-.34-1.88-.38-.99.82-1.75 1.69-1.17a1.724 1.724 0 002.57-1.02z"/></svg>
 );
 
+export const IconPlay = ({ className = 'w-5 h-5 inline-block mr-2' }) => (
+  <svg className={className} fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>
+);
+
 export default null;

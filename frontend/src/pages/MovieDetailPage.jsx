@@ -7,7 +7,7 @@ import watchlistService from '../services/watchlistService';
 import AuthContext from '../context/AuthContext';
 import ReviewList from '../components/ReviewList';
 import ReviewForm from '../components/ReviewForm';
-import { IconStar, IconCalendar, IconPin } from '../components/Icons';
+import { IconStar, IconCalendar, IconPin, IconPlay } from '../components/Icons';
 import AddToSharedListModal from '../components/AddToSharedListModal';
 
 const MovieDetailPage = () => {
@@ -17,6 +17,7 @@ const MovieDetailPage = () => {
     const [reviews, setReviews] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const [showTrailer, setShowTrailer] = useState(false);
 
     useEffect(() => {
         const fetchMovieData = async () => {
@@ -100,10 +101,25 @@ const MovieDetailPage = () => {
         return `${h}h ${mm}m`;
     };
 
+    const trailer = movie.videos?.results?.find(v => v.type === 'Trailer' && v.site === 'YouTube');
+    const providers = movie['watch/providers']?.results?.TR?.flatrate || [];
+
     return (
         <div className="container mx-auto p-4">
             <div className="flex flex-col md:flex-row bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl shadow-2xl p-8 border border-indigo-500/20">
-                <img src={posterUrl} alt={movie.title} className="w-full md:w-1/3 rounded-lg shadow-lg object-cover" />
+                <div className="w-full md:w-1/3 relative group">
+                    <img src={posterUrl} alt={movie.title} className="w-full rounded-lg shadow-lg object-cover" />
+                    {trailer && (
+                        <button 
+                            onClick={() => setShowTrailer(true)}
+                            className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"
+                        >
+                            <div className="bg-indigo-600 p-4 rounded-full shadow-xl">
+                                <IconPlay className="w-8 h-8 text-white" />
+                            </div>
+                        </button>
+                    )}
+                </div>
                 <div className="md:ml-8 mt-6 md:mt-0 text-white flex-1">
                     <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-indigo-300 to-purple-300 bg-clip-text text-transparent">{movie.title} {movie.release_date ? `(${movie.release_date.substring(0, 4)})` : ''}</h1>
                     {movie.tagline && <p className="text-lg italic text-indigo-200/80 mt-1">{movie.tagline}</p>}
@@ -131,7 +147,33 @@ const MovieDetailPage = () => {
                                 <button onClick={handleAddToWatchlist} className="px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg text-white font-semibold shadow-lg hover:shadow-green-500/30 transition-all duration-300">Add to Watchlist</button>
                             </>
                         )}
+                        {trailer && (
+                            <button 
+                                onClick={() => setShowTrailer(true)} 
+                                className="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg text-white font-semibold shadow-lg hover:shadow-red-500/30 transition-all duration-300 flex items-center"
+                            >
+                                <IconPlay className="w-4 h-4 mr-2" />
+                                Watch Trailer
+                            </button>
+                        )}
                     </div>
+
+                    {providers.length > 0 && (
+                        <div className="mt-6">
+                            <h3 className="text-sm font-bold uppercase tracking-wider text-indigo-300 mb-3">Where to Watch</h3>
+                            <div className="flex flex-wrap gap-4">
+                                {providers.map(provider => (
+                                    <div key={provider.provider_id} className="group relative" title={provider.provider_name}>
+                                        <img 
+                                            src={`https://image.tmdb.org/t/p/original${provider.logo_path}`} 
+                                            alt={provider.provider_name}
+                                            className="w-10 h-10 rounded-lg shadow-md border border-gray-700 group-hover:border-indigo-500 transition-colors"
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
 
                     <div className="my-4">
                         {Array.isArray(movie.genres) && movie.genres.length > 0 && movie.genres.map(g => (
@@ -158,6 +200,27 @@ const MovieDetailPage = () => {
                     </div>
                 </div>
             </div>
+
+            {showTrailer && trailer && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 animate-fade-in" onClick={() => setShowTrailer(false)}>
+                    <div className="relative w-full max-w-5xl aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl" onClick={e => e.stopPropagation()}>
+                        <button 
+                            className="absolute top-4 right-4 z-10 p-2 bg-black/50 hover:bg-black/80 rounded-full text-white transition-colors"
+                            onClick={() => setShowTrailer(false)}
+                        >
+                            ✕
+                        </button>
+                        <iframe
+                            className="w-full h-full"
+                            src={`https://www.youtube.com/embed/${trailer.key}?autoplay=1`}
+                            title="Movie Trailer"
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                        ></iframe>
+                    </div>
+                </div>
+            )}
 
             <div className="mt-8">
                 <ReviewList reviews={reviews} />

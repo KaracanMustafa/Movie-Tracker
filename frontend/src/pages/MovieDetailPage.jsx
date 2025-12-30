@@ -7,6 +7,7 @@ import watchlistService from '../services/watchlistService';
 import AuthContext from '../context/AuthContext';
 import ReviewList from '../components/ReviewList';
 import ReviewForm from '../components/ReviewForm';
+import { Link } from 'react-router-dom';
 import { IconStar, IconCalendar, IconPin, IconPlay } from '../components/Icons';
 import AddToSharedListModal from '../components/AddToSharedListModal';
 
@@ -39,6 +40,7 @@ const MovieDetailPage = () => {
         };
 
         fetchMovieData();
+        window.scrollTo(0, 0);
     }, [id]);
 
     const handleReviewSubmitted = (newReview) => {
@@ -103,6 +105,7 @@ const MovieDetailPage = () => {
 
     const trailer = movie.videos?.results?.find(v => v.type === 'Trailer' && v.site === 'YouTube');
     const providers = movie['watch/providers']?.results?.TR?.flatrate || [];
+    const recommendations = movie.recommendations?.results?.slice(0, 6) || [];
 
     return (
         <div className="container mx-auto p-4">
@@ -200,6 +203,31 @@ const MovieDetailPage = () => {
                     </div>
                 </div>
             </div>
+
+            {recommendations.length > 0 && (
+                <div className="mt-12">
+                    <h2 className="text-2xl font-bold text-white mb-6 border-l-4 border-indigo-500 pl-4">You May Also Like</h2>
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                        {recommendations.map(recMovie => (
+                            <Link to={`/movie/${recMovie.id}`} key={recMovie.id} className="group block">
+                                <div className="relative aspect-[2/3] overflow-hidden rounded-lg shadow-lg mb-2">
+                                    <img 
+                                        src={recMovie.poster_path 
+                                            ? `https://image.tmdb.org/t/p/w300${recMovie.poster_path}` 
+                                            : 'https://via.placeholder.com/300x450.png?text=No+Image'} 
+                                        alt={recMovie.title}
+                                        className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-300"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-2">
+                                        <span className="text-white text-sm font-bold text-center">{recMovie.vote_average?.toFixed(1)} / 10</span>
+                                    </div>
+                                </div>
+                                <h3 className="text-gray-300 text-sm font-semibold truncate group-hover:text-indigo-400 transition-colors">{recMovie.title}</h3>
+                            </Link>
+                        ))}
+                    </div>
+                </div>
+            )}
 
             {showTrailer && trailer && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 animate-fade-in" onClick={() => setShowTrailer(false)}>

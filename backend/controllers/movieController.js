@@ -95,7 +95,7 @@ exports.discoverMovies = async (req, res) => {
 };
 
 // @route   GET api/movies/:id
-// @desc    Get details for a single movie from TMDB (including videos and providers)
+// @desc    Get details for a single movie from TMDB (including videos, providers, and recommendations)
 // @access  Private
 exports.getMovieDetails = async (req, res) => {
     try {
@@ -103,7 +103,7 @@ exports.getMovieDetails = async (req, res) => {
             params: {
                 api_key: TMDB_API_KEY,
                 language: 'en-US',
-                append_to_response: 'videos,watch/providers'
+                append_to_response: 'videos,watch/providers,recommendations'
             },
         });
         res.json(response.data);

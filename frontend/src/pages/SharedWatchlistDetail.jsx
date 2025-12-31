@@ -128,7 +128,6 @@ const SharedWatchlistDetail = () => {
                     <div className="space-y-2">
                         {list.members.map(m => (
                             <div key={m._id} className="flex items-center text-gray-200 bg-gray-800 px-3 py-2 rounded-lg">
-                                <IconUser className="text-gray-500 mr-2" />
                                 <span>{m.name}</span>
                                 <span className="text-gray-500 text-sm ml-2">({m.email})</span>
                             </div>
